@@ -1,21 +1,30 @@
 import { useRouter } from "next/router";
 import nookies from 'nookies'
 import { useState } from "react";
+import { Toast } from "../src/components/Swal";
 
 export default function Login(){
     const router = useRouter();
     const [senha, setSenha] = useState('');
+    const [email, setEmail] = useState('');
 
     const handleSubmit = (e:any) =>{
         e.preventDefault();
-        if(senha){
+        if(senha && email && email.includes('@')){
+            nookies.set(null, 'email', email, {
+                maxAge: 1000 * 60 * 60 * 24 * 7,
+                path: '/'
+            })
             nookies.set(null, 'senhaSecreta', senha, {
                 maxAge: 1000 * 60 * 60 * 24 * 7,
                 path: '/'
             })
             router.push('/dashboard')
         }else{
-            alert('informe uma senha')
+            Toast.fire({
+                icon: 'error',
+                title:'informe uma senha'
+            })
         }
     }
 
@@ -27,8 +36,10 @@ export default function Login(){
                         <h1>Login</h1>
                     </div>
                     <form className="flex flex-col w-full gap-1" onSubmit={handleSubmit}>
-                        <label htmlFor="password" className="text-sm">Digite a senha</label>
-                        <input type="text" id='password' className="w-full px-3 h-8" placeholder="senhazinha" onChange={(e) => setSenha(e.target.value)}></input>
+                        <label htmlFor="email" className="text-sm">E-mail</label>
+                        <input type="email" id='email' className="w-full px-3 h-8" placeholder="emailzinho" onChange={(e) => setEmail(e.target.value)}></input>
+                        <label htmlFor="password" className="text-sm">senha</label>
+                        <input type="password" id='password' className="w-full px-3 h-8" placeholder="senhazinha" onChange={(e) => setSenha(e.target.value)}></input>
 
                         <button className='p-2 rounded-lg bg-purple-400'>Acessar</button>
                     </form>

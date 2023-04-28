@@ -31,8 +31,6 @@ const controllerByMethod = {
                 return;
             }
 
-            await dbClient.auth.admin.createUser({email: email});
-
             try{
                 sendGridMail.setApiKey(sendGridKEY);
 

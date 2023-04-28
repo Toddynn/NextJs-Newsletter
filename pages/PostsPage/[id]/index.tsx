@@ -1,9 +1,6 @@
-import { useRouter } from 'next/router';
-import { ButtonRedirect } from '../../../src/components/Buttons';
-import dados from '../../../posts.json'
 import axios from 'axios';
-import {dadosURL} from '../../../src/Services/Api'
 import Link from 'next/link';
+import { ButtonRedirect } from '../../../src/components/Buttons';
 
 export async function getStaticPaths(){
     /* const paths = dados.posts.map((postAtual)=>{
@@ -19,7 +16,7 @@ export async function getStaticPaths(){
 export async function getStaticProps(context:any){
     const id = context.params.id;
 
-    const {data:post} = await axios.get(`${dadosURL}/${id}`)
+    const {data:post} = await axios.get(`${process.env.DADOS_URL}/${id}`)
     console.log(post)
     
     return {
